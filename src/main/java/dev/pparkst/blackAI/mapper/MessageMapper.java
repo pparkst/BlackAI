@@ -17,7 +17,7 @@ public interface MessageMapper {
         if(messageRequest == null) return null;
 
         return Message.builder()
-                        .type(messageRequest.getType())
+                        .category(messageRequest.getCategory())
                         .content(messageRequest.getContent())
                         .sender(messageRequest.getSender())
                         .build();

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class MessageDTO {
     
@@ -14,18 +15,19 @@ public class MessageDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request {
-        private String type;
+        private String category;
         private String content;
         private String sender;
     }
 
     @Getter
+    @Setter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
         private Long no;
-        private String type;
+        private String category;
         private String content;
         private String sender;
         private LocalDateTime createdAt;

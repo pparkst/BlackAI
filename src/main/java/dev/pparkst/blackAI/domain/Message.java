@@ -19,17 +19,16 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-//@Entity
-//@EntityListeners(AuditingEntityListener.class)
-//@Table(name = "tbl_Message")
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "tbl_message")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type", nullable = false, length = 50)
-    private String type;
+    @Column(name = "category", nullable = false, length = 50)
+    private String category;
 
     @Column(name = "content", columnDefinition = "TEXT",  nullable = false, length = 2000)
     private String content;
@@ -42,8 +41,8 @@ public class Message {
     private LocalDateTime createdAt;
 
     @Builder
-    public Message(String type, String content, String sender) {
-        this.type = type;
+    public Message(String category, String content, String sender) {
+        this.category = category;
         this.content = content;
         this.sender = sender;
     }
