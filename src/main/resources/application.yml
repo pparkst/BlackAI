@@ -10,6 +10,12 @@ spring:
     hikari:
       maximum-pool-size: 50
       minimum-idle: 10
+  
+  vector-datasource:
+    url: jdbc:postgresql://localhost:5432/blackai_db
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -22,18 +28,20 @@ spring:
 
   ai:
     ollama:
+      embedding:
+        options:
+          model: bge-m3
       base-url: http://localhost:11434
       chat:
         options:
           model: gemma4:e4b
-      embedding:
-        options:
-          model: bge-m3
-    vectorstore:
-      pgvector:
-        index-type: HNSW
-        distance-type: COSINE_DISTANCE
-        dimensions: 1024
+      
+    # vectorstore:
+    #   pgvector:
+    #     index-type: HNSW
+    #     distance-type: COSINE_DISTANCE
+    #     dimensions: 1024
+    # 메모리 vectorStore에서 pgvector로 변경하며 직접 bean 설정
       
 
 logging:

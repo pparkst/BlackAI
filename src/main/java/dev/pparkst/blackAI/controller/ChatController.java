@@ -22,6 +22,11 @@ public class ChatController {
     private final OllamaChatModel chatModel;
     private final RagService ragService;
 
+    @GetMapping("/ai/rag/ask")
+    public String ask(@RequestParam String message) {
+        return ragService.ask(message);
+    }
+    
 
     @GetMapping("/ai/rag/ingestPdf")
     public String ingestForPdf() {
@@ -70,6 +75,8 @@ public class ChatController {
     public Flux<String> stream(@RequestParam(value = "message") String message) {
         return chatModel.stream(message);
     }
+
+    
     
     
 }

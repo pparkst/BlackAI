@@ -13,7 +13,6 @@ import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -31,11 +30,6 @@ public class RagService {
     public RagService(EmbeddingModel embeddingModel, VectorStore vectorStore, ChatClient.Builder chatClientBuilder) {
         this.embeddingModel = embeddingModel;
         this.vectorStore = vectorStore;
-
-        SearchRequest searchRequest = SearchRequest.builder()
-                .topK(4)
-                .similarityThreshold(0.7)
-                .build();
 
         this.chatClient = chatClientBuilder
                 .defaultAdvisors(QuestionAnswerAdvisor.builder(vectorStore).build())
@@ -93,7 +87,7 @@ public class RagService {
 
         vectorStore.add(chunks);
 
-        ((SimpleVectorStore) vectorStore).save(new File(vectorStorePath));
+        //((SimpleVectorStore) vectorStore).save(new File(vectorStorePath)); vectorStore -> pgvector로 변경되며 json 저장로직 제거
     }
 
     public void ingestTxt() {
@@ -107,10 +101,17 @@ public class RagService {
 
         vectorStore.add(chunks);
 
-        ((SimpleVectorStore) vectorStore).save(new File(vectorStorePath));
+        //((SimpleVectorStore) vectorStore).save(new File(vectorStorePath)); vectorStore -> pgvector로 변경되며 json 저장로직 제거
     }
 
     public List<Document> search(String query) {
         return vectorStore.similaritySearch(query);
+    }
+
+    public String ask(String message) {
+        return chatClient.prompt()
+                .user(message)
+                .call()
+                .content();
     }
 }
